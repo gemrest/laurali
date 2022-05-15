@@ -16,8 +16,8 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-/** One of few callbacks of a `Server` */
-export const enum Callback {
+/** One of few hooks of a `Server` */
+export const enum Hook {
   /** Called before a connection to a client has been responded to */
   ON_PRE_ROUTE = 0,
   /** Called after a connection to a client has concluded */

@@ -16,7 +16,7 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { Callback } from "./callbacks.ts";
+import { Hook } from "./hooks.ts";
 
 /**
  * Mark the function as a route and register it to the `Server`.
@@ -36,10 +36,10 @@ export const route = (path?: string) => {
 };
 
 /**
- * Mark the function as a callback and register it to the `Server`.
- * @param callback The type of callback which the function will be called for.
+ * Mark the function as a hook and register it to the `Server`.
+ * @param hook The type of hook which the function will be called for.
  */
-export const callback = (callback?: Callback) => {
+export const hook = (hook?: Hook) => {
   return (
     // deno-lint-ignore no-explicit-any
     target: any,
@@ -48,35 +48,35 @@ export const callback = (callback?: Callback) => {
   ) => {
     let type;
 
-    if (callback) {
-      type = callback;
+    if (hook) {
+      type = hook;
     } else {
       switch (key) {
         case "onPreRoute":
           {
-            type = Callback.ON_PRE_ROUTE;
+            type = Hook.ON_PRE_ROUTE;
           }
           break;
         case "onPostRoute":
           {
-            type = Callback.ON_POST_ROUTE;
+            type = Hook.ON_POST_ROUTE;
           }
           break;
         case "onError":
           {
-            type = Callback.ON_ERROR;
+            type = Hook.ON_ERROR;
           }
           break;
         default: {
           throw new Error(
-            `Unknown callback type: '${key.toString()}'. Did you forget to ` +
-              "specify the callback type?`",
+            `Unknown hook type: '${key.toString()}'. Did you forget to ` +
+              "specify the hook type?`",
           );
         }
       }
     }
 
-    target.addCallback(type, descriptor.value);
+    target.addHook(type, descriptor.value);
 
     return descriptor;
   };

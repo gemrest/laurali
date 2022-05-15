@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "useUnknownInCatchVariables": true,
+    "noImplicitOverride": true
+  },
+  "fmt": {
+    "files": {
+      "exclude": [
+        ".git",
+        "cov"
+      ]
+    }
+  },
+  "lint": {
+    "files": {
+      "exclude": [
+        ".git",
+        "cov"
+      ]
+    }
+  },
+  "tasks": {
+    "test": "deno test --doc --unstable --allow-all --coverage=./cov"
+  }
+}

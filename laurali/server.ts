@@ -16,7 +16,7 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { Callback } from "./callbacks.ts";
+import { Hook } from "./hooks.ts";
 
 export interface ServerConfiguration {
   port?: number;
@@ -34,8 +34,8 @@ export abstract class Server {
   /** All registered route functions of the `Server` */
   // deno-lint-ignore no-explicit-any
   static #routes: Map<string, (ctx: Deno.TlsConn) => any> = new Map();
-  /** All registered callback functions of the `Server` */
-  static #callbacks: Map<Callback, (ctx: Deno.TlsConn) => void> = new Map();
+  /** All registered hook functions of the `Server` */
+  static #hooks: Map<Hook, (ctx: Deno.TlsConn) => void> = new Map();
   /** The port of the `Server` */
   static #port: number;
   /** The hostname of the `Server` */
@@ -65,9 +65,9 @@ export abstract class Server {
   addRoute(route: string, handler: () => any) {
     Server.#routes.set(route, handler);
   }
-  /** Add a callback function to the `Server` */
-  addCallback(callback: Callback, handler: () => void) {
-    Server.#callbacks.set(callback, handler);
+  /** Add a hook function to the `Server` */
+  addHook(hook: Hook, handler: () => void) {
+    Server.#hooks.set(hook, handler);
   }
 
   /** Get the `port` of the `Server` */
@@ -98,7 +98,7 @@ export abstract class Server {
 
   /** Start listening and responding to client connections */
   async listen() {
-    // If the `Server` has an `onListen` callback, call it.
+    // If the `Server` has an `onListen` hook, call it.
     if (this.onListen) this.onListen();
 
     // Listen for connections and handle them.
@@ -115,9 +115,9 @@ export abstract class Server {
         continue;
       }
 
-      const onPreRoute = Server.#callbacks.get(Callback.ON_PRE_ROUTE);
-      const onPostRoute = Server.#callbacks.get(Callback.ON_POST_ROUTE);
-      const onError = Server.#callbacks.get(Callback.ON_ERROR);
+      const onPreRoute = Server.#hooks.get(Hook.ON_PRE_ROUTE);
+      const onPostRoute = Server.#hooks.get(Hook.ON_POST_ROUTE);
+      const onError = Server.#hooks.get(Hook.ON_ERROR);
 
       // Make sure that the client has sent a request.
       if (n === null) {
@@ -132,7 +132,7 @@ export abstract class Server {
         "",
       ).replace(/gemini:\/\//, "");
 
-      // If the `Server` has an `onPreRoute` callback, call it.
+      // If the `Server` has an `onPreRoute` hook, call it.
       if (onPreRoute) onPreRoute(r);
 
       // Respond to index requests.
@@ -178,7 +178,7 @@ export abstract class Server {
         r.close();
       }
 
-      // If the `Server` has an `onPostRoute` callback, call it.
+      // If the `Server` has an `onPostRoute` hook, call it.
       if (onPostRoute) onPostRoute(r);
 
       continue;

@@ -17,5 +17,5 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 export * from "./decorators.ts";
-export * from "./callbacks.ts";
+export * from "./hooks.ts";
 export * from "./server.ts";

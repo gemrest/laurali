@@ -35,12 +35,7 @@ $ deno run --allow-write --allow-run --allow-net --allow-read https://deno.land/
 You can then begin to implement your very own Laurali server.
 
 ```ts
-import {
-  Callback,
-  callback,
-  route,
-  Server,
-} from "https://deno.land/x/laurali/mod.ts";
+import { route, Server } from "https://deno.land/x/laurali/mod.ts";
 
 class MyCoolServer extends Server {
   /** Visit `/hi` */

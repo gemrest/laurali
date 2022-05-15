@@ -16,7 +16,7 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { callback, route, Server } from "../mod.ts";
+import { hook, route, Server } from "../mod.ts";
 import * as optic from "https://deno.land/x/optic@1.3.5/mod.ts";
 
 /** Implement a new Laurali server */
@@ -50,7 +50,7 @@ class MyCoolServer extends Server {
     return MyCoolServer.clicks;
   }
 
-  @callback()
+  @hook()
   override onPreRoute(ctx: Deno.TlsConn) {
     MyCoolServer.clicks += 1;
 
@@ -60,12 +60,12 @@ class MyCoolServer extends Server {
     );
   }
 
-  @callback()
+  @hook()
   override onPostRoute() {
     MyCoolServer.logger.info("Closed connection.");
   }
 
-  @callback()
+  @hook()
   override onError() {
     return "hi";
   }

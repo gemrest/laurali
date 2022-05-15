@@ -1,0 +1,8 @@
+# Coverage
+cov
+
+# Development
+.laurali
+
+# IDE
+.vscode

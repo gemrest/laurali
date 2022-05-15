@@ -43,7 +43,7 @@ import {
 } from "https://deno.land/x/laurali/mod.ts";
 
 class MyCoolServer extends Server {
-  /** Visit /hi */
+  /** Visit `/hi` */
   @route()
   hi() {
     return "Hello, World!";

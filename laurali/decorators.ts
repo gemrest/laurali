@@ -39,14 +39,44 @@ export const route = (path?: string) => {
  * Mark the function as a callback and register it to the `Server`.
  * @param callback The type of callback which the function will be called for.
  */
-export const callback = (callback: Callback) => {
+export const callback = (callback?: Callback) => {
   return (
     // deno-lint-ignore no-explicit-any
     target: any,
-    _key: string | symbol,
+    key: string | symbol,
     descriptor: PropertyDescriptor,
   ) => {
-    target.addCallback(callback, descriptor.value);
+    let type;
+
+    if (callback) {
+      type = callback;
+    } else {
+      switch (key) {
+        case "onPreRoute":
+          {
+            type = Callback.ON_PRE_ROUTE;
+          }
+          break;
+        case "onPostRoute":
+          {
+            type = Callback.ON_POST_ROUTE;
+          }
+          break;
+        case "onError":
+          {
+            type = Callback.ON_ERROR;
+          }
+          break;
+        default: {
+          throw new Error(
+            `Unknown callback type: '${key.toString()}'. Did you forget to ` +
+              "specify the callback type?`",
+          );
+        }
+      }
+    }
+
+    target.addCallback(type, descriptor.value);
 
     return descriptor;
   };

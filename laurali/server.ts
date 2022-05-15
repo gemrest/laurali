@@ -18,10 +18,12 @@
 
 import { Hook } from "./hooks.ts";
 
+/** Configuration options of a `Server` */
 export interface ServerConfiguration {
+  /** The port a `Server` will listen on */
   port?: number;
+  /** The hostname a `Server` will identify as */
   hostname?: string;
-  logger?: boolean;
 }
 
 /** The base Laurali server to be extended upon */

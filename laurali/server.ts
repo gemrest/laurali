@@ -43,6 +43,11 @@ export abstract class Server {
   /** The hostname of the `Server` */
   static #hostname: string;
 
+  /**
+   * @param certFile The path to the public key file of the `Server`
+   * @param keyFile The path to the private key file of the `Server`
+   * @param config Extra configuration options of the `Server`
+   */
   constructor(
     certFile: string,
     keyFile: string,

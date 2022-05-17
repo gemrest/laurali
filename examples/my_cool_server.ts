@@ -72,7 +72,7 @@ class MyCoolServer extends Server {
 
   override onListen() {
     MyCoolServer.logger.info(
-      `Listening on ${MyCoolServer.hostname}:${MyCoolServer.port}.`,
+      `Listening on ${this.hostname}:${this.port}.`,
     );
   }
 }

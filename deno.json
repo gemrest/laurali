@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "useUnknownInCatchVariables": true,
-    "noImplicitOverride": true
+    "checkJs": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": false
   },
   "fmt": {
     "files": {

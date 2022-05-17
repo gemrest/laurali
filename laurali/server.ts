@@ -39,9 +39,9 @@ export abstract class Server {
   /** All registered hook functions of the `Server` */
   static #hooks: Map<Hook, (ctx: Deno.TlsConn) => void> = new Map();
   /** The port of the `Server` */
-  #port: number;
+  static #port: number;
   /** The hostname of the `Server` */
-  #hostname: string;
+  static #hostname: string;
 
   /**
    * @param certFile The path to the public key file of the `Server`
@@ -56,8 +56,8 @@ export abstract class Server {
     const port = config?.port || 1965;
     const hostname = config?.hostname || "0.0.0.0";
 
-    this.#port = port;
-    this.#hostname = hostname;
+    Server.#port = port;
+    Server.#hostname = hostname;
 
     this.#listener = Deno.listenTls({
       port,
@@ -78,13 +78,13 @@ export abstract class Server {
   }
 
   /** Get the `port` of the `Server` */
-  get port() {
-    return this.#port;
+  static get port() {
+    return Server.#port;
   }
 
   /** Get the `hostname` of the `Server` */
-  get hostname() {
-    return this.#hostname;
+  static get hostname() {
+    return Server.#hostname;
   }
 
   /** Called before a connection to a client has been responded to */

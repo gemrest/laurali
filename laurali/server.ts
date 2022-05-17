@@ -88,10 +88,10 @@ export abstract class Server {
   }
 
   /** Called before a connection to a client has been responded to */
-  protected onPreRoute?(ctx: Deno.TlsConn): void;
+  protected onPreRoute?(ctx?: Deno.TlsConn): void;
 
   /** Called after a connection to a client has concluded */
-  protected onPostRoute?(ctx: Deno.TlsConn): void;
+  protected onPostRoute?(ctx?: Deno.TlsConn): void;
 
   /** Called before the `Server` starts listening for connections */
   protected onListen?(): void;

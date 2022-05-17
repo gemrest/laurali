@@ -29,7 +29,7 @@ export const route = (path?: string) => {
     key: string | symbol,
     descriptor: PropertyDescriptor,
   ) => {
-    target.addRoute(path || key, descriptor.value);
+    target.addRoute(path || `/${key.toString()}`, descriptor.value);
 
     return descriptor;
   };

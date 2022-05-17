@@ -77,4 +77,10 @@ class MyCoolServer extends Server {
   }
 }
 
-(new MyCoolServer(".laurali/public.pem", ".laurali/private.pem")).listen();
+(new MyCoolServer(".laurali/public.pem", ".laurali/private.pem", {
+  proxy: {
+    enable: true,
+    baseURL: "https://fuwn.me/proxy/",
+    hostname: "fuwn.me",
+  },
+})).listen();

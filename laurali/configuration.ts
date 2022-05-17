@@ -16,7 +16,28 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
-export * from "./configuration.ts";
-export * from "./decorators.ts";
-export * from "./hooks.ts";
-export * from "./server.ts";
+/** Configuration options of a `Server`'s HTTP proxy */
+export interface ProxyConfiguration {
+  /** Allow Laurali to proxy */
+  enable?: boolean;
+  /**
+   * The base URL of the HTTP proxy server
+   * @default "https://fuwn/me/proxy/"
+   */
+  baseURL?: string;
+  /**
+   * The hostname of **this** Laurali server
+   * @default ServerConfiguration.hostname
+   */
+  hostname?: string;
+}
+
+/** Configuration options of a `Server` */
+export interface ServerConfiguration {
+  /** The port a `Server` will listen on */
+  port?: number;
+  /** The hostname a `Server` will identify as */
+  hostname?: string;
+  /** Proxy your Gemini content by specifying an HTTP proxy */
+  proxy?: ProxyConfiguration;
+}

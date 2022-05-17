@@ -16,15 +16,8 @@
 // Copyright (C) 2022-2022 Fuwn <contact@fuwn.me>
 // SPDX-License-Identifier: GPL-3.0-only
 
+import { ServerConfiguration } from "./configuration.ts";
 import { Hook } from "./hooks.ts";
-
-/** Configuration options of a `Server` */
-export interface ServerConfiguration {
-  /** The port a `Server` will listen on */
-  port?: number;
-  /** The hostname a `Server` will identify as */
-  hostname?: string;
-}
 
 /** The base Laurali server to be extended upon */
 export abstract class Server {
@@ -65,6 +58,24 @@ export abstract class Server {
       certFile,
       keyFile,
     });
+
+    if (config?.proxy?.enable) {
+      if (config.proxy.baseURL === undefined) {
+        throw new Error("ProxyConfiguration is missing proxy baseURL");
+      }
+
+      this.#proxy(config.proxy.baseURL, config.proxy.hostname || hostname);
+    }
+  }
+
+  async #proxy(baseURL: string, host: string) {
+    const server = Deno.listen({ port: 8080 });
+
+    for await (const c of server) {
+      for await (const r of Deno.serveHttp(c)) {
+        r.respondWith(Response.redirect(baseURL + host));
+      }
+    }
   }
 
   /** Add a route function to the `Server` */
